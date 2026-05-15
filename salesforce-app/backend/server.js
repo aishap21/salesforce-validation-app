@@ -6,6 +6,9 @@ require('dotenv').config();
 
 const app = express();
 
+
+const REDIRECT_URI = 'https://salesforce-validation-app.onrender.com/oauth/callback';
+
 app.use(cors({
   origin: [
     'https://salesforce-frontend.onrender.com',
@@ -32,7 +35,8 @@ app.get('/auth/login', (req, res) => {
   const url = `${process.env.SF_LOGIN_URL}/services/oauth2/authorize` +
     `?response_type=code` +
     `&client_id=${process.env.SF_CLIENT_ID}` +
-    `&redirect_uri=${encodeURIComponent(process.env.SF_REDIRECT_URI)}` +
+  
+    `&redirect_uri=${encodeURIComponent(REDIRECT_URI)}` +
     `&code_challenge=${codeChallenge}` +
     `&code_challenge_method=S256`;
 
@@ -51,14 +55,14 @@ app.get('/oauth/callback', async (req, res) => {
           code: code,
           client_id: process.env.SF_CLIENT_ID,
           client_secret: process.env.SF_CLIENT_SECRET,
-          redirect_uri: process.env.SF_REDIRECT_URI,
+        
+          redirect_uri: REDIRECT_URI,
           code_verifier: codeVerifier,
         },
       }
     );
     const { access_token, instance_url } = response.data;
 
-  
     res.redirect(
       `https://salesforce-frontend.onrender.com?token=${access_token}&instance=${encodeURIComponent(instance_url)}`
     );
