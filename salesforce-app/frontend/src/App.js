@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 
+const BACKEND_URL = "https://salesforce-validation-app.onrender.com";
+
 function App() {
   const [token, setToken] = useState(null);
   const [instance, setInstance] = useState(null);
@@ -8,7 +10,6 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const t = params.get("token");
@@ -21,18 +22,17 @@ function App() {
     }
   }, []);
 
- 
   const handleLogin = () => {
-    window.location.href = "http://localhost:5000/auth/login";
+    window.location.href = `${BACKEND_URL}/auth/login`;
   };
 
- 
+
   const fetchRules = async () => {
     try {
       setLoading(true);
       setMessage("⏳ Fetching rules...");
       const res = await fetch(
-        `http://localhost:5000/validation-rules?token=${token}&instance=${encodeURIComponent(instance)}`
+        `${BACKEND_URL}/validation-rules?token=${token}&instance=${encodeURIComponent(instance)}`
       );
       if (!res.ok) throw new Error("Failed to fetch");
       const data = await res.json();
@@ -45,11 +45,11 @@ function App() {
     }
   };
 
- 
+  
   const toggleRule = async (ruleId, currentStatus) => {
     try {
       setMessage("⏳ Updating rule...");
-      const res = await fetch("http://localhost:5000/toggle-rule", {
+      const res = await fetch(`${BACKEND_URL}/toggle-rule`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -67,13 +67,13 @@ function App() {
     }
   };
 
- 
+  
   const toggleAll = async (makeActive) => {
     try {
       setLoading(true);
       setMessage(`⏳ ${makeActive ? "Enabling" : "Disabling"} all rules...`);
       for (const rule of rules) {
-        await fetch("http://localhost:5000/toggle-rule", {
+        await fetch(`${BACKEND_URL}/toggle-rule`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -162,7 +162,6 @@ function App() {
                   {rules.map((rule, index) => (
                     <tr key={rule.Id}>
                       <td>{index + 1}</td>
-                      {/*  */}
                       <td className="rule-name">{rule.ValidationName}</td>
                       <td>
                         <span className={rule.Active ? "badge-active" : "badge-inactive"}>

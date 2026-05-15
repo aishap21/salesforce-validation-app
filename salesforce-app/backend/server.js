@@ -5,9 +5,15 @@ const crypto = require('crypto');
 require('dotenv').config();
 
 const app = express();
-app.use(cors());
-app.use(express.json());
 
+app.use(cors({
+  origin: [
+    'https://salesforce-frontend.onrender.com',
+    'http://localhost:3000'
+  ]
+}));
+
+app.use(express.json());
 
 function generateCodeVerifier() {
   return crypto.randomBytes(32).toString('base64url');
@@ -17,9 +23,7 @@ function generateCodeChallenge(verifier) {
   return crypto.createHash('sha256').update(verifier).digest('base64url');
 }
 
-
 let codeVerifier = '';
-
 
 app.get('/auth/login', (req, res) => {
   codeVerifier = generateCodeVerifier();
@@ -34,7 +38,6 @@ app.get('/auth/login', (req, res) => {
 
   res.redirect(url);
 });
-
 
 app.get('/oauth/callback', async (req, res) => {
   try {
@@ -54,15 +57,16 @@ app.get('/oauth/callback', async (req, res) => {
       }
     );
     const { access_token, instance_url } = response.data;
+
+  
     res.redirect(
-      `http://localhost:3000?token=${access_token}&instance=${encodeURIComponent(instance_url)}`
+      `https://salesforce-frontend.onrender.com?token=${access_token}&instance=${encodeURIComponent(instance_url)}`
     );
   } catch (error) {
     console.error('OAuth Error:', error.response?.data || error.message);
     res.status(500).send('OAuth failed. Check your credentials.');
   }
 });
-
 
 app.get('/validation-rules', async (req, res) => {
   try {
@@ -83,12 +87,10 @@ app.get('/validation-rules', async (req, res) => {
   }
 });
 
-
 app.post('/toggle-rule', async (req, res) => {
   try {
     const { token, instance, ruleId, active } = req.body;
 
-   
     const getResponse = await axios.get(
       `${instance}/services/data/v59.0/tooling/sobjects/ValidationRule/${ruleId}`,
       {
@@ -98,7 +100,6 @@ app.post('/toggle-rule', async (req, res) => {
 
     const existingMetadata = getResponse.data.Metadata;
 
-    
     await axios.patch(
       `${instance}/services/data/v59.0/tooling/sobjects/ValidationRule/${ruleId}`,
       {
