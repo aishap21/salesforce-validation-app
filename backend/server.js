@@ -55,7 +55,7 @@ app.get('/oauth/callback', async (req, res) => {
     );
     const { access_token, instance_url } = response.data;
     res.redirect(
-      `http://localhost:3000?token=${access_token}&instance=${encodeURIComponent(instance_url)}`
+      `${process.env.FRONTEND_URL}?token=${access_token}&instance=${encodeURIComponent(instance_url)}`
     );
   } catch (error) {
     console.error('OAuth Error:', error.response?.data || error.message);
@@ -88,7 +88,6 @@ app.post('/toggle-rule', async (req, res) => {
   try {
     const { token, instance, ruleId, active } = req.body;
 
-   
     const getResponse = await axios.get(
       `${instance}/services/data/v59.0/tooling/sobjects/ValidationRule/${ruleId}`,
       {
@@ -98,7 +97,6 @@ app.post('/toggle-rule', async (req, res) => {
 
     const existingMetadata = getResponse.data.Metadata;
 
-    
     await axios.patch(
       `${instance}/services/data/v59.0/tooling/sobjects/ValidationRule/${ruleId}`,
       {
