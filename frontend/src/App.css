@@ -16,7 +16,7 @@ body {
   padding: 20px;
 }
 
-/* HEADER */
+
 .header {
   text-align: center;
   padding: 30px 20px;
@@ -36,7 +36,7 @@ body {
   opacity: 0.85;
 }
 
-/* LOGIN BOX */
+
 .login-box {
   text-align: center;
   background: white;
@@ -77,7 +77,7 @@ body {
   background-color: #005fb2;
 }
 
-/* DASHBOARD */
+
 .dashboard {
   background: white;
   border-radius: 12px;
@@ -85,7 +85,7 @@ body {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
-/* STATUS BAR */
+
 .status-bar {
   background-color: #e8f5e9;
   color: #2e7d32;
@@ -97,7 +97,7 @@ body {
   border-left: 4px solid #2e7d32;
 }
 
-/* BUTTON GROUP */
+
 .button-group {
   display: flex;
   gap: 12px;
@@ -146,7 +146,7 @@ body {
   background-color: #b71c1c;
 }
 
-/* MESSAGE BOX */
+
 .message-box {
   padding: 12px 16px;
   border-radius: 6px;
@@ -166,7 +166,7 @@ body {
   border-left: 4px solid #c62828;
 }
 
-/* LOADER */
+
 .loader {
   text-align: center;
   color: #0070d2;
@@ -174,14 +174,13 @@ body {
   padding: 20px;
 }
 
-/* TABLE WRAPPER */
 .table-wrapper h3 {
   color: #032d60;
   margin-bottom: 14px;
   font-size: 17px;
 }
 
-/* RULES TABLE */
+
 .rules-table {
   width: 100%;
   border-collapse: collapse;
@@ -218,7 +217,7 @@ body {
   color: #032d60;
 }
 
-/* BADGES */
+
 .badge-active {
   background-color: #e8f5e9;
   color: #2e7d32;
@@ -237,7 +236,7 @@ body {
   font-weight: bold;
 }
 
-/* TOGGLE BUTTONS IN TABLE */
+
 .btn-activate {
   background-color: #2e7d32;
   color: white;
@@ -274,7 +273,7 @@ body {
   cursor: not-allowed;
 }
 
-/* EMPTY STATE */
+
 .empty-state {
   text-align: center;
   padding: 40px;
